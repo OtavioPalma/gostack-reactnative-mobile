@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -15,43 +16,50 @@ import {
 } from './styles';
 
 export const SignIn: React.FC = () => {
+  const navigation = useNavigation();
+
   return (
-    <>
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{
+        flexGrow: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         enabled
       >
-        <ScrollView
-          contentContainerStyle={{ flex: 1 }}
-          keyboardShouldPersistTaps="handled"
-        >
-          <Container>
-            <Image source={logo} />
+        <Container>
+          <Image source={logo} />
 
-            <View>
-              <Title>Entre com sua conta</Title>
-            </View>
+          <View>
+            <Title>Entre com sua conta</Title>
+          </View>
 
-            <Input name="email" icon="mail" placeholder="E-mail" />
-            <Input name="password" icon="lock" placeholder="Senha" />
+          <Input name="email" icon="mail" placeholder="E-mail" />
+          <Input name="password" icon="lock" placeholder="Senha" />
 
-            <Button onPress={() => console.log('object')}>Entrar</Button>
+          <Button onPress={() => console.log('object')}>Entrar</Button>
 
-            <ForgotPassword
-              activeOpacity={0.9}
-              onPress={() => console.log('object')}
-            >
-              <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
-            </ForgotPassword>
-          </Container>
-        </ScrollView>
+          <ForgotPassword
+            activeOpacity={0.9}
+            onPress={() => console.log('object')}
+          >
+            <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
+          </ForgotPassword>
+        </Container>
       </KeyboardAvoidingView>
 
-      <CreateAccount activeOpacity={0.9} onPress={() => console.log('object')}>
+      <CreateAccount
+        activeOpacity={0.9}
+        onPress={() => navigation.navigate('SignUp')}
+      >
         <Icon name="log-in" size={20} color="#ff9000" />
         <CreateAccountText>Criar Conta</CreateAccountText>
       </CreateAccount>
-    </>
+    </ScrollView>
   );
 };
