@@ -1,5 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/mobile';
+import React, { useCallback, useRef } from 'react';
 import { Image, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
@@ -15,8 +17,19 @@ import {
   Title,
 } from './styles';
 
+interface FormData {
+  email: string;
+  password: string;
+}
+
 export const SignIn: React.FC = () => {
+  const ref = useRef<FormHandles>(null);
   const navigation = useNavigation();
+
+  const handleSignIn = useCallback((data: FormData) => {
+    ref.current?.setErrors({});
+    console.log(data);
+  }, []);
 
   return (
     <ScrollView
@@ -39,10 +52,29 @@ export const SignIn: React.FC = () => {
             <Title>Entre com sua conta</Title>
           </View>
 
-          <Input name="email" icon="mail" placeholder="E-mail" />
-          <Input name="password" icon="lock" placeholder="Senha" />
+          <Form onSubmit={handleSignIn} ref={ref}>
+            <Input
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              name="email"
+              icon="mail"
+              placeholder="E-mail"
+            />
+            <Input
+              secureTextEntry
+              name="password"
+              icon="lock"
+              placeholder="Senha"
+              returnKeyType="send"
+              textContentType="newPassword"
+              onSubmitEditing={() => ref.current?.submitForm()}
+            />
 
-          <Button onPress={() => console.log('object')}>Entrar</Button>
+            <View>
+              <Button onPress={() => ref.current?.submitForm()}>Entrar</Button>
+            </View>
+          </Form>
 
           <ForgotPassword
             activeOpacity={0.9}

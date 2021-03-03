@@ -1,5 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/mobile';
+import React, { useCallback, useRef } from 'react';
 import { Image, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
@@ -8,8 +10,20 @@ import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
 import { Container, GoBack, GoBackText, Title } from './styles';
 
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export const SignUp: React.FC = () => {
+  const ref = useRef<FormHandles>(null);
   const navigation = useNavigation();
+
+  const handleSignUp = useCallback((data: FormData) => {
+    ref.current?.setErrors({});
+    console.log(data);
+  }, []);
 
   return (
     <ScrollView
@@ -32,11 +46,36 @@ export const SignUp: React.FC = () => {
             <Title>Crie sua conta</Title>
           </View>
 
-          <Input name="name" icon="user" placeholder="Nome" />
-          <Input name="email" icon="mail" placeholder="E-mail" />
-          <Input name="password" icon="lock" placeholder="Senha" />
+          <Form onSubmit={handleSignUp} ref={ref}>
+            <Input
+              autoCapitalize="words"
+              name="name"
+              icon="user"
+              placeholder="Nome"
+            />
+            <Input
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              name="email"
+              icon="mail"
+              placeholder="E-mail"
+            />
+            <Input
+              secureTextEntry
+              name="password"
+              icon="lock"
+              placeholder="Senha"
+              textContentType="newPassword"
+              onSubmitEditing={() => ref.current?.submitForm()}
+            />
 
-          <Button onPress={() => console.log('object')}>Cadastrar</Button>
+            <View>
+              <Button onPress={() => ref.current?.submitForm()}>
+                Cadastrar
+              </Button>
+            </View>
+          </Form>
         </Container>
       </KeyboardAvoidingView>
 
