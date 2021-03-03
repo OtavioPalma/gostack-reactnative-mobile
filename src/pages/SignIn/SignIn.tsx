@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import logo from '../../assets/logo.png';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
+import { useAuth } from '../../hooks/useAuth';
 import { getValidationErrors } from '../../utils/getValidationErrors';
 import {
   Container,
@@ -34,32 +35,37 @@ export const SignIn: React.FC = () => {
   const ref = useRef<FormHandles>(null);
   const navigation = useNavigation();
 
-  const handleSignIn = useCallback(async (data: FormData) => {
-    try {
-      ref.current?.setErrors({});
+  const { signIn } = useAuth();
 
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail é obrigatório')
-          .email('Digite um e-mail válido'),
-        password: Yup.string().required('Senha é obrigatória'),
-      });
+  const handleSignIn = useCallback(
+    async (data: FormData) => {
+      try {
+        ref.current?.setErrors({});
 
-      await schema.validate(data, { abortEarly: false });
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail é obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().required('Senha é obrigatória'),
+        });
 
-      // await signIn({ email: data.email, password: data.password });
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
+        await schema.validate(data, { abortEarly: false });
 
-        ref.current?.setErrors(errors);
+        await signIn({ email: data.email, password: data.password });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
 
-        return;
+          ref.current?.setErrors(errors);
+
+          return;
+        }
+
+        Alert.alert('Erro ao acessar conta', 'Credenciais inválidas');
       }
-
-      Alert.alert('Erro ao acessar conta', 'Credenciais inválidas');
-    }
-  }, []);
+    },
+    [signIn],
+  );
 
   return (
     <ScrollView
@@ -106,10 +112,7 @@ export const SignIn: React.FC = () => {
             </View>
           </Form>
 
-          <ForgotPassword
-            activeOpacity={0.9}
-            onPress={() => console.log('object')}
-          >
+          <ForgotPassword activeOpacity={0.9}>
             <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
           </ForgotPassword>
         </Container>

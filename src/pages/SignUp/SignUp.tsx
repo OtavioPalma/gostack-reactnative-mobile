@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import logo from '../../assets/logo.png';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
+import { Api } from '../../services/Api';
 import { getValidationErrors } from '../../utils/getValidationErrors';
 import { Container, GoBack, GoBackText, Title } from './styles';
 
@@ -43,7 +44,7 @@ export const SignUp: React.FC = () => {
 
         await schema.validate(data, { abortEarly: false });
 
-        // await Api.post('/users', data);
+        await Api.post('/users', data);
 
         Alert.alert('Cadastro realizado!', 'Você já pode acessar sua conta');
 
