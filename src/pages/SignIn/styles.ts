@@ -30,6 +30,7 @@ export const CreateAccount = styled.TouchableOpacity`
   border-color: #232129;
 
   padding: 16px 0;
+  margin-top: 16px;
 
   flex-direction: row;
   justify-content: center;
