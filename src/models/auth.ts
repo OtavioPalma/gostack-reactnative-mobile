@@ -17,6 +17,7 @@ export interface User {
 
 export interface AuthContextData {
   user: User;
+  loading: boolean;
   signIn(credentials: AuthCredentials): Promise<void>;
   signOut(): void;
 }

@@ -5,7 +5,7 @@ import { SignUp } from '../pages/SignUp/SignUp';
 
 const Auth = createStackNavigator();
 
-export const Routes: React.FC = () => (
+export const AuthRoutes: React.FC = () => (
   <Auth.Navigator
     screenOptions={{
       headerShown: false,

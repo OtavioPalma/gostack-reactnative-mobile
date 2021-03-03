@@ -3,7 +3,7 @@ import React from 'react';
 import { StatusBar, View } from 'react-native';
 import 'react-native-gesture-handler';
 import AppProvider from './contexts';
-import { Routes } from './routes/Routes';
+import { Routes } from './routes/index.routes';
 
 export const App: React.FC = () => {
   return (
