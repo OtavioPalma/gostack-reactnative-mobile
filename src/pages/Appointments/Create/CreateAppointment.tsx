@@ -3,13 +3,15 @@ import { useNavigation, useRoute } from '@react-navigation/core';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Platform, ScrollView } from 'react-native';
+import { Alert, Platform, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useAuth } from '../../../hooks/useAuth';
 import { Provider } from '../../../models/provider';
 import { Api } from '../../../services/Api';
 import {
   BackButton,
+  ButtonContainer,
+  ButtonText,
   Calendar,
   CalendarTitle,
   Container,
@@ -56,7 +58,7 @@ export const CreateAppointment: React.FC = () => {
   );
 
   const { user } = useAuth();
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
 
   const handleDateChange = useCallback((event: Event, date?: Date) => {
     if (Platform.OS === 'android') {
@@ -114,6 +116,24 @@ export const CreateAppointment: React.FC = () => {
         formattedHour: format(new Date().setHours(hour), 'HH:00'),
       }));
   }, [dayAvailability]);
+
+  const handleCreateAppointment = useCallback(async () => {
+    try {
+      const date = new Date(selectedDate);
+
+      date.setHours(selectedHour);
+      date.setMinutes(0);
+
+      await Api.post('appointments', {
+        provider_id: selectedProvider,
+        date,
+      });
+
+      navigate('CreatedAppointment', { date: date.getTime() });
+    } catch (err) {
+      Alert.alert('Erro ao criar agendamento', 'Tente novamente mais tarde');
+    }
+  }, [navigate, selectedDate, selectedHour, selectedProvider]);
 
   return (
     <Container>
@@ -215,6 +235,10 @@ export const CreateAppointment: React.FC = () => {
             </SectionBody>
           </Section>
         </Schedule>
+
+        <ButtonContainer onPress={handleCreateAppointment}>
+          <ButtonText>Agendar</ButtonText>
+        </ButtonContainer>
       </ScrollView>
     </Container>
   );

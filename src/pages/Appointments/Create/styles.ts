@@ -177,3 +177,22 @@ export const HourText = styled.Text<HourTextProps>`
   font-size: 16px;
   line-height: 18px;
 `;
+
+export const ButtonContainer = styled(RectButton)`
+  height: 50px;
+  margin: 0 24px 24px;
+  border-radius: 10px;
+
+  background: #ff9000;
+
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ButtonText = styled.Text`
+  font-family: 'NotoSansJP-Medium';
+  font-size: 18px;
+  line-height: 22px;
+
+  color: #232129;
+`;
