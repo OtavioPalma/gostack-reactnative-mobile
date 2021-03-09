@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { Button } from '../../components/Button/Button';
 import { useAuth } from '../../hooks/useAuth';
@@ -50,7 +49,7 @@ export const Dashboard: React.FC = () => {
       <ProvidersList
         data={providers}
         ListHeaderComponent={
-          <ProvidersListTitle>Cabelereiros</ProvidersListTitle>
+          <ProvidersListTitle>Cabeleireiros</ProvidersListTitle>
         }
         renderItem={({ item: provider }) => (
           <ProviderContainer
@@ -78,8 +77,6 @@ export const Dashboard: React.FC = () => {
           </ProviderContainer>
         )}
       />
-
-      <Text>Dashboard</Text>
 
       <Button onPress={signOut}>Sair!</Button>
     </Container>
