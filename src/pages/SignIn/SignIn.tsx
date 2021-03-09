@@ -33,7 +33,7 @@ interface FormData {
 
 export const SignIn: React.FC = () => {
   const ref = useRef<FormHandles>(null);
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
 
   const { signIn } = useAuth();
 
@@ -118,10 +118,7 @@ export const SignIn: React.FC = () => {
         </Container>
       </KeyboardAvoidingView>
 
-      <CreateAccount
-        activeOpacity={0.9}
-        onPress={() => navigation.navigate('SignUp')}
-      >
+      <CreateAccount activeOpacity={0.9} onPress={() => navigate('SignUp')}>
         <Icon name="log-in" size={20} color="#ff9000" />
         <CreateAccountText>Criar Conta</CreateAccountText>
       </CreateAccount>
