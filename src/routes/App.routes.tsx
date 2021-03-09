@@ -15,7 +15,7 @@ export const AppRoutes: React.FC = () => (
     }}
   >
     <App.Screen name="Dashboard" component={Dashboard} />
-    <App.Screen name="Create" component={CreateAppointment} />
+    <App.Screen name="CreateAppointment" component={CreateAppointment} />
     <App.Screen name="Created" component={CreatedAppointment} />
 
     <App.Screen name="Profile" component={Profile} />
