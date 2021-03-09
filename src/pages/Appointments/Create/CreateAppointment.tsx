@@ -1,14 +1,20 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation, useRoute } from '@react-navigation/core';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useAuth } from '../../../hooks/useAuth';
 import { Provider } from '../../../models/provider';
 import { Api } from '../../../services/Api';
 import {
   BackButton,
+  Calendar,
+  CalendarTitle,
   Container,
   Header,
   HeaderTitle,
+  OpenDatePickerButton,
+  OpenDatePickerButtonText,
   ProviderAvatar,
   ProviderContainer,
   ProviderName,
@@ -26,9 +32,21 @@ export const CreateAppointment: React.FC = () => {
 
   const [selectedProvider, setSelectedProvider] = useState(providerId);
   const [providers, setProviders] = useState<Provider[]>([]);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const { signOut, user } = useAuth();
+  const { user } = useAuth();
   const { goBack } = useNavigation();
+
+  const handleDateChange = useCallback((event: Event, date?: Date) => {
+    if (Platform.OS === 'android') {
+      setShowDatePicker(false);
+    }
+
+    if (date) {
+      setSelectedDate(date);
+    }
+  }, []);
 
   useEffect(() => {
     Api.get('providers').then(response => {
@@ -67,6 +85,25 @@ export const CreateAppointment: React.FC = () => {
           )}
         />
       </ProvidersListContainer>
+
+      <Calendar>
+        <CalendarTitle>Escolha uma data</CalendarTitle>
+
+        <OpenDatePickerButton onPress={() => setShowDatePicker(true)}>
+          <OpenDatePickerButtonText>
+            Selecionar outra data
+          </OpenDatePickerButtonText>
+        </OpenDatePickerButton>
+
+        {showDatePicker && (
+          <DateTimePicker
+            mode="date"
+            display="calendar"
+            value={selectedDate}
+            onChange={handleDateChange}
+          />
+        )}
+      </Calendar>
     </Container>
   );
 };
