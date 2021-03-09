@@ -12,6 +12,15 @@ interface ProviderNameProps {
   selected: boolean;
 }
 
+interface HourProps {
+  available: boolean;
+  selected: boolean;
+}
+
+interface HourTextProps {
+  selected: boolean;
+}
+
 export const Container = styled.View`
   flex: 1;
 `;
@@ -102,4 +111,69 @@ export const OpenDatePickerButtonText = styled.Text`
   line-height: 20px;
 
   color: #232129;
+`;
+
+export const DateContainer = styled.View`
+  padding: 12px;
+  height: 46px;
+  margin: 12px 24px 0;
+  border-radius: 10px;
+  background: #3e3b47;
+
+  align-items: center;
+  justify-content: center;
+`;
+
+export const DateText = styled.Text`
+  color: #f4ede8;
+  font-family: 'NotoSansJP-Medium';
+  font-size: 16px;
+  line-height: 18px;
+`;
+
+export const Schedule = styled.View`
+  padding: 24px 0 16px;
+`;
+
+export const ScheduleTitle = styled.Text`
+  font-family: 'NotoSansJP-Medium';
+  color: #f4ede8;
+  font-size: 24px;
+  line-height: 28px;
+  margin: 0 24px 24px;
+`;
+
+export const Section = styled.View`
+  margin-bottom: 24px;
+`;
+
+export const SectionTitle = styled.Text`
+  font-size: 18px;
+  line-height: 22px;
+  color: #999591;
+  font-family: 'NotoSansJP-Regular';
+
+  margin: 0 24px 12px;
+`;
+
+export const SectionBody = styled.ScrollView.attrs({
+  contentContainerStyle: { paddingHorizontal: 24 },
+  horizontal: true,
+  showsHorizontalScrollIndicator: false,
+})``;
+
+export const Hour = styled(RectButton)<HourProps>`
+  padding: 12px;
+  border-radius: 10px;
+  margin-right: 8px;
+
+  background: ${props => (props.selected ? '#ff9900' : '#3e3b47')};
+  opacity: ${props => (props.available ? 1 : 0.3)};
+`;
+
+export const HourText = styled.Text<HourTextProps>`
+  color: ${props => (props.selected ? '#232129' : '#f4ede8')};
+  font-family: 'NotoSansJP-Medium';
+  font-size: 16px;
+  line-height: 18px;
 `;
