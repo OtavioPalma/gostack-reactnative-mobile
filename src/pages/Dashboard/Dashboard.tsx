@@ -47,6 +47,7 @@ export const Dashboard: React.FC = () => {
       </Header>
 
       <ProvidersList
+        contentContainerStyle={{ paddingBottom: 36 }}
         data={providers}
         ListHeaderComponent={
           <ProvidersListTitle>Cabeleireiros</ProvidersListTitle>

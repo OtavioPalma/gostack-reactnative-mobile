@@ -150,6 +150,7 @@ export const CreateAppointment: React.FC = () => {
       <ScrollView>
         <ProvidersListContainer>
           <ProvidersList
+            contentContainerStyle={{ paddingRight: 24 }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={providers}
