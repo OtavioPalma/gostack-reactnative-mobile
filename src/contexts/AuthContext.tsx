@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { AuthContextData, AuthState } from '../models/auth';
+import { AuthContextData, AuthState, User } from '../models/auth';
 import { Api } from '../services/Api';
 
 export const AuthContext = createContext<AuthContextData>(
@@ -53,8 +53,16 @@ export const AuthProvider: React.FC = ({ children }) => {
     await AsyncStorage.multiRemove(['@GoBarber:token', '@GoBarber:user']);
   }, []);
 
+  const updateUser = useCallback(async (user: User) => {
+    setData(state => ({ token: state.token, user }));
+
+    await AsyncStorage.setItem('@GoBarber:user', JSON.stringify(user));
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user: data.user, loading, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, loading, signIn, signOut, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

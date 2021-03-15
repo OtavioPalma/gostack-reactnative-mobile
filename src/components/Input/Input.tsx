@@ -6,13 +6,19 @@ import { Container, Icon, TextInput } from './styles';
 interface InputProps extends TextInputProps {
   name: string;
   icon: string;
+  containerStyle?: Record<string, unknown>;
 }
 
 interface InputValueReference {
   value: string;
 }
 
-export const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => {
+export const Input: React.FC<InputProps> = ({
+  name,
+  icon,
+  containerStyle = {},
+  ...rest
+}) => {
   const {
     fieldName,
     defaultValue = '',
@@ -60,7 +66,11 @@ export const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container hasError={Boolean(error)} isFocused={isFocused}>
+    <Container
+      style={containerStyle}
+      hasError={Boolean(error)}
+      isFocused={isFocused}
+    >
       <Icon
         name={icon}
         size={20}

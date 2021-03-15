@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Feather';
-import { Button } from '../../components/Button/Button';
 import { useAuth } from '../../hooks/useAuth';
 import { Provider } from '../../models/provider';
 import { Api } from '../../services/Api';
@@ -24,7 +23,7 @@ import {
 
 export const Dashboard: React.FC = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
-  const { signOut, user } = useAuth();
+  const { user } = useAuth();
   const { navigate } = useNavigation();
 
   useEffect(() => {
@@ -78,8 +77,6 @@ export const Dashboard: React.FC = () => {
           </ProviderContainer>
         )}
       />
-
-      <Button onPress={signOut}>Sair!</Button>
     </Container>
   );
 };
